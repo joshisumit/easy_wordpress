@@ -40,13 +40,13 @@ SCript makes changes in following directories:
 
 
 
-    mysql -u root -p sumit
+`mysql -u root -p sumit`
     
-    show databases;
+`show databases;`
     
-    use example.com_db;
+`use example.com_db;`
     
-    show tables;
+`show tables;`
     
-    SELECT User FROM mysql.user;
+`SELECT User FROM mysql.user;`
 
