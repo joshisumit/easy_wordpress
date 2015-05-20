@@ -22,5 +22,25 @@
 
     git clone https://github.com/joshisumit/easy_wordpress.git
     
+Execute script with:
+
+    ./easy_wordpress.sh
     
     
+## Verify your wordpress installation
+
+Once script has completed successfully,just open example.com in your browser, wordpress installation wizard will greet you (e.g. `example.com/wp-admin/install.php` )
+
+SCript makes changes in following directories:
+
+1. Check your example.com configuration (nginx server block) - `/etc/nginx/sites-available/example.com`
+2. Check your example.com contents - `/usr/share/nginx/www/example.com/htdocs`
+3. Login to mysql database :
+
+
+    mysql -u root -p sumit
+    show databases;
+    use example.com_db;
+    show tables;
+    SELECT User FROM mysql.user;
+
