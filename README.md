@@ -38,9 +38,15 @@ SCript makes changes in following directories:
 3. Login to mysql database :
 
 
+
+
     mysql -u root -p sumit
+    
     show databases;
+    
     use example.com_db;
+    
     show tables;
+    
     SELECT User FROM mysql.user;
 
