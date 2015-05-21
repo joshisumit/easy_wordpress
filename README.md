@@ -6,8 +6,8 @@
 
 - You don't need to install/configure LEMP Stack(Linux,nginx,MySQL,PHP). :)
 - If you have already installed LEMP Stack, then it directly installs Wordpress on it.
-- In a few minutes you'll be set up with a minimal, wordpress environment like the one below 
-(giving you more time to spend on writing epic blog posts!)
+- In a few minutes you'll be set up with a minimal, wordpress environment.
+
  
 
 
@@ -31,22 +31,21 @@ Execute script with:
 
 Once script has completed successfully,just open example.com in your browser, wordpress installation wizard will greet you (e.g. `example.com/wp-admin/install.php` )
 
-SCript makes changes in following directories:
+Check your wordpress installation
 
 1. Check your example.com configuration (nginx server block) - `/etc/nginx/sites-available/example.com`
 2. Check your example.com contents - `/usr/share/nginx/www/example.com/htdocs`
 3. Login to mysql database 
 
 
-Check for example.com_db by running:
+Check for example.com_db :
     
     show databases;
     
-List all tables of example_db by running:    
+List all tables of example_db :    
     
     use example.com_db;
-    
-     show tables;
+    show tables;
     
  Check example.com_db user(i.e. wordpuser) by runnning:
  
@@ -55,28 +54,19 @@ List all tables of example_db by running:
 
 ##Issues
 
-1. `Your PHP installation appears to be missing the MySQL extension which is required by WordPress`
+#### Issue 1)  `Your PHP installation appears to be missing the MySQL extension which is required by WordPress`
 
 Edit the following file:
-
-
 
     sudo nano /etc/php5/fpm/php.ini
     
 Uncomment following line, if it is commented and restart php5-fpm service
 
-
-
     ;extension=msql.so
 
-
-
-
-2. `nginx 502 - bad gateway`
+#### Issue2) `nginx 502 - bad gateway`
 
 Open the following file:
-
-
 
     sudo nano /etc/php5/fpm/pool.d/www.conf 
 
@@ -86,9 +76,6 @@ edit the line
     
 Change it to:
 
-
-
     listen = 127.0.0.1:9000
     
- 
  
