@@ -35,26 +35,25 @@ SCript makes changes in following directories:
 
 1. Check your example.com configuration (nginx server block) - `/etc/nginx/sites-available/example.com`
 2. Check your example.com contents - `/usr/share/nginx/www/example.com/htdocs`
-3. Login to mysql database :
+3. Login to mysql database 
 
 
-
-
-`mysql -u root -p sumit`
+Check for example.com_db by running:
     
-`show databases;`
+    show databases;
     
-`use example.com_db;`
+List all tables of example_db by running:    
     
-`show tables;`
+    use example.com_db;
     
-`SELECT User FROM mysql.user;`
-
+     show tables;
+    
+ Check example.com_db user(i.e. wordpuser) by runnning:
+ 
+     SELECT User FROM mysql.user;
 
 
 ##Issues
-
-If you come across following error:
 
 1. `Your PHP installation appears to be missing the MySQL extension which is required by WordPress`
 
@@ -63,7 +62,6 @@ Edit the following file:
 
 
     sudo nano /etc/php5/fpm/php.ini
-    
     
 Uncomment following line, if it is commented and restart php5-fpm service
 
