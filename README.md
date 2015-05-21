@@ -13,9 +13,9 @@
 
 ##Pre-requisites
 
-1. This script requires sudo permission for its execution or it should be executed with root user.
+1. This script requires non-root user account on your server with sudo privileges for its execution or it should be executed with root user.
 2. This script requires `sample_nginx_config` file for its execution.
-3. This script installs mysql with username=`root` and password=`sumit`. You should change your mysql password once it is installed.
+3. This script installs mysql with username=`root` and password=`sumit`. You can change your mysql password after installation.
 
 
 ##How to Set it up ?
@@ -24,17 +24,17 @@
     
 Execute script with:
 
-    ./easy_wordpress.sh
+    sudo bash easy_wordpress.sh
     
     
 ## Verify your wordpress installation
 
-Once script has completed successfully,just open example.com in your browser, wordpress installation wizard will greet you (e.g. `example.com/wp-admin/install.php` )
+Once the script has completed successfully,just open example.com in your browser, famous wordpress installation wizard will greet you (e.g. `example.com/wp-admin/install.php` ).
 
-Check your wordpress installation
+
 
 1. Check your example.com configuration (nginx server block) - `/etc/nginx/sites-available/example.com`
-2. Check your example.com contents - `/usr/share/nginx/www/example.com/htdocs`
+2. Check your example.com root directory - `/usr/share/nginx/www/example.com/htdocs`
 3. Login to mysql database 
 
 
@@ -42,7 +42,7 @@ Check for example.com_db :
     
     show databases;
     
-List all tables of example_db :    
+List all tables of example_db (i.e. tables starting with wp_) :    
     
     use example.com_db;
     show tables;
@@ -60,7 +60,7 @@ Edit the following file:
 
     sudo nano /etc/php5/fpm/php.ini
     
-Uncomment following line, if it is commented and restart php5-fpm service
+Uncomment the following line, if it is commented and restart php5-fpm service
 
     ;extension=msql.so
 
