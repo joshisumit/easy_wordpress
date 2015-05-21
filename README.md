@@ -50,3 +50,47 @@ SCript makes changes in following directories:
     
 `SELECT User FROM mysql.user;`
 
+
+
+##Issues
+
+If you come across following error:
+
+1. `Your PHP installation appears to be missing the MySQL extension which is required by WordPress`
+
+Edit the following file:
+
+
+
+    sudo nano /etc/php5/fpm/php.ini
+    
+    
+Uncomment following line, if it is commented and restart php5-fpm service
+
+
+
+    ;extension=msql.so
+
+
+
+
+2. `nginx 502 - bad gateway`
+
+Open the following file:
+
+
+
+    sudo nano /etc/php5/fpm/pool.d/www.conf 
+
+edit the line 
+
+    listen = /var/run/php5-fpm.sock
+    
+Change it to:
+
+
+
+    listen = 127.0.0.1:9000
+    
+ 
+ 
