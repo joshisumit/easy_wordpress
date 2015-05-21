@@ -24,14 +24,14 @@
     
 Execute script with:
 
-    sudo bash easy_wordpress.sh
+    sudo bash easy_wordpress
     
     
 ## Verify your wordpress installation
 
 Once the script has completed successfully,just open example.com in your browser, famous wordpress installation wizard will greet you (e.g. `example.com/wp-admin/install.php` ).
 
-
+Verify following steps:
 
 1. Check your example.com configuration (nginx server block) - `/etc/nginx/sites-available/example.com`
 2. Check your example.com root directory - `/usr/share/nginx/www/example.com/htdocs`
