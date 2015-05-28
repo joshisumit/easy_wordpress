@@ -15,7 +15,7 @@
 
 1. This script requires non-root user account on your server with sudo privileges for its execution or it should be executed with root user.
 2. This script requires `sample_nginx_config` file for its execution.
-3. This script installs mysql with username=`root` and password=`sumit`. You can change your mysql password after installation.
+
 
 
 ##How to Set it up ?
