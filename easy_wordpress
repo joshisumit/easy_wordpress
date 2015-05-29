@@ -178,18 +178,18 @@ function download_wordpress
 	echo "Downloading Wordpress........."
 	#download wordpress 
 	#tar has better option of no-stripping
-	sudo wget -P $home/$dom/htdocs/ http://wordpress.org/latest.zip || echo "Failed to download Wordpress..." && exit
+	sudo wget -P $home/$dom/htdocs/ http://wordpress.org/latest.zip || (echo "Failed to download Wordpress..." && exit)
 	
 	#added - on server if unzip is not installed then script will install unzip...
 	hash unzip &> /dev/null
         if [ $? -ne 0 ];then
 		echo "The program unzip is currently not installed."
-	        sudo apt-get install unzip || echo "Failed to install unzip" && exit
+	        sudo apt-get install unzip || (echo "Failed to install unzip" && exit)
 	fi
-	sudo unzip $home/$dom/htdocs/latest.zip -d $home/$dom/htdocs/ || echo "Unzipping opertaion failed..." && exit
+	sudo unzip $home/$dom/htdocs/latest.zip -d $home/$dom/htdocs/ || (echo "Unzipping opertaion failed..." && exit)
 	
 	#Doing similar to --strip-components=1 used in tar....Removing wordpress directory
-	sudo mv $home/$dom/htdocs/wordpress/* $home/$dom/htdocs/ || echo "Failed to move...no such file or directory" && exit
+	sudo mv $home/$dom/htdocs/wordpress/* $home/$dom/htdocs/ || (echo "Failed to move...no such file or directory" && exit)
 	sudo rm -rf $home/$dom/htdocs/wordpress/
 	sudo rm $home/$dom/htdocs/latest.zip
 	return 0
