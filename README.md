@@ -24,7 +24,7 @@
     
 Execute script with:
 
-    sudo bash easy_wordpress
+    bash easy_wordpress
     
     
 ## Verify your wordpress installation
