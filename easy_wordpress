@@ -16,7 +16,7 @@ function install_nginx
 	#echo "This function will install nginx"
 	#sudo apt-get update
 
-	sudo apt-get -y install nginx || ( echo "Nginx installation Failed" && exit )
+	sudo apt-get -y install nginx || (echo "Nginx installation Failed" && exit)
 
 	#Start nginx
 	sudo /etc/init.d/nginx start
@@ -31,8 +31,8 @@ function install_php5-fpm
 {
 	#echo "This function will install php"
 	#Install php5-fpm
-	sudo apt-get update || ( echo "Update Failed" && exit )
-	sudo apt-get -y install php5-fpm || ( echo "php5-fpm Installation failed" && exit )
+	sudo apt-get update || (echo "Update Failed" && exit)
+	sudo apt-get -y install php5-fpm || (echo "php5-fpm Installation failed" && exit)
 
 	#configure php
 	#uncomment line in php.ini to make it work
@@ -58,14 +58,19 @@ function install_mysql
 	#added Generate random password for mysql root user
 	#This method will prompt the generated password....
 	msql_passwd=$(date +"%s" | md5sum | cut -c -10)
-        echo "MySQL password is $msql_passwd"
-	
+        
+	echo
+	echo
+	echo "MySQL password is $msql_passwd"
+	echo
+	echo
+
 	#Set MySQL password in advance
 	echo "mysql-server mysql-server/root_password password $msql_passwd" | sudo debconf-set-selections
 	echo "mysql-server mysql-server/root_password_again password $msql_passwd" | sudo debconf-set-selections
 	
 	#Install MySQL
-	sudo apt-get -y install mysql-server php5-mysql || ( echo "MySQL installation Failed" && exit )
+	sudo apt-get -y install mysql-server php5-mysql || (echo "MySQL installation Failed" && exit)
 	
 	#configure MySQL
 	sudo mysql_install_db
@@ -149,34 +154,6 @@ function set_nginx_config
 		exit 1
 	fi
 
-	#Another approach: for defining nginx server block
-	#cat <<EOF > $site_config/$dom
-#server {
-#        server_name example.com www.example.com;
-#
-#        access_log /var/log/nginx/example.com.access.log;
-#        error_log /var/log/nginx/example.com.error.log;
-#
-#        root /usr/share/nginx/www/example.com/htdocs;
-#        index index.php index.html index.htm;
-#
-#        location / {
-#               try_files $uri $uri/ /index.php?q=$uri&$args;
-#        }
-#
-#	error_page 404 /404.html;
-#
-#        #passes this to php-fpm socket
-#       location ~ \.php$ {
-#        	try_files $uri =404;
-#        	fastcgi_pass 127.0.0.1:9000;
-#		#fastcgi_pass unix:/var/run/php5-fpm.sock
-#		fastcgi_index index.php;
-#        	include fastcgi_params;
-#        }
-#}
-#EOF
-#
 	#Make changes in nginx server block defined in /etc/nginx/sites-available/example.com
 	sudo sed -i "s/example\.com/$dom/g" $site_config/$dom
 	#Make symlink for sites-enabled
@@ -201,18 +178,18 @@ function download_wordpress
 	echo "Downloading Wordpress........."
 	#download wordpress 
 	#tar has better option of no-stripping
-	sudo wget -P $home/$dom/htdocs/ http://wordpress.org/latest.zip || ( echo "Failed to download Wordpress..." && exit )
+	sudo wget -P $home/$dom/htdocs/ http://wordpress.org/latest.zip || echo "Failed to download Wordpress..." && exit
 	
 	#added - on server if unzip is not installed then script will install unzip...
 	hash unzip &> /dev/null
         if [ $? -ne 0 ];then
 		echo "The program unzip is currently not installed."
-	        sudo apt-get install unzip || ( echo "Failed to install unzip" && exit )
+	        sudo apt-get install unzip || echo "Failed to install unzip" && exit
 	fi
-	sudo unzip $home/$dom/htdocs/latest.zip -d $home/$dom/htdocs/ || ( echo "Unzipping opertaion failed..." && exit )
+	sudo unzip $home/$dom/htdocs/latest.zip -d $home/$dom/htdocs/ || echo "Unzipping opertaion failed..." && exit
 	
 	#Doing similar to --strip-components=1 used in tar....Removing wordpress directory
-	sudo mv $home/$dom/htdocs/wordpress/* $home/$dom/htdocs/ || ( echo "Failed to move...no such file or directory" && exit )
+	sudo mv $home/$dom/htdocs/wordpress/* $home/$dom/htdocs/ || echo "Failed to move...no such file or directory" && exit
 	sudo rm -rf $home/$dom/htdocs/wordpress/
 	sudo rm $home/$dom/htdocs/latest.zip
 	return 0
@@ -230,8 +207,10 @@ function create_db_wordpress
 	wp_db+=$quote
 	
 	echo "DB $wp_db will be created"
+	
 
-	mysql -u root -psumit -e "create database $wp_db;"
+	#Script will prompt for mysql password
+	mysql -u root -p -e "create database $wp_db;"
 	if [ $? -ne 0 ];then
 		echo "Failed to create Wordpress database"
 		exit
@@ -267,7 +246,9 @@ function configure_wordpress
 	q3="FLUSH PRIVILEGES;"
 	SQL="${q1}${q2}${q3}"
 
-	mysql -u root -psumit -e "$SQL"
+
+	#script will prompt for mysql password
+	mysql -u root -p -e "$SQL"
 	if [ $? -ne 0 ];then
 		echo "Changes failed in MYSQL DB"
 	fi
@@ -304,7 +285,7 @@ function check_root
 {
 	sudo -v 2>/dev/null
 	if [ $? -ne 0 ];then
-        	echo "sorry you do not have sudo privilege...This script reuires sudo."
+        	echo "sorry you do not have sudo privilege...This script reuires sudo privilege."
         	exit
 	fi 
 }
@@ -319,13 +300,10 @@ site_config="/etc/nginx/sites-available"
 #passwd=sumit
 #db_name=$dom_db
 wordpress_loc="$nginx_home/$dom/htdocs/wordpress"
-wordpress_user="wordpuser"
-wordpress_password="password"
 
-
+#0) Check for sudo user
 check_root
 
-$@
 
 #1) Check necessary packages and install them
 for pkg_name in $packages; do
