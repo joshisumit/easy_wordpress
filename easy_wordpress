@@ -171,7 +171,7 @@ function set_nginx_config
 }
 
 #function download_wordpress
-#{
+# {
 #	home=$1
 #	
 #	echo "Downloading Wordpress........."
