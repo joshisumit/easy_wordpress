@@ -217,7 +217,7 @@ function download_wordpress
 
         #once $cache has latest.zip and wordpress dir ....then proceed for copying it to...$nginx_home
         echo "Copying wordpress from cache..."
-        sudo cp -r $cache/wordpress/* $nginx_home || (echo "Failed to copy " && exit)
+        sudo cp -r $cache/wordpress/* $home/$dom/htdocs || (echo "Failed to copy " && exit)
 	return 0
 }
 
