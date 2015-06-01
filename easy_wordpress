@@ -288,6 +288,13 @@ function configure_wordpress
 		sudo sed -i "/DB_NAME/ s/database_name_here/$dom$last/" $nginx_home/$dom/htdocs/wp-config.php
 		sudo sed -i "/DB_USER/ s/username_here/$wp_user/" $nginx_home/$dom/htdocs/wp-config.php
 		sudo sed -i "/DB_PASSWORD/ s/password_here/$wp_passwd/" $nginx_home/$dom/htdocs/wp-config.php
+		
+		#add salt
+                sudo sed -i "/AUTH_KEY/ s/^/\/*/" $nginx_home/$dom/htdocs/wp-config.php
+                sudo sed -i "/NONCE_SALT/ s/$/*\//" $nginx_home/$dom/htdocs/wp-config.php 
+                wget -P /tmp https://api.wordpress.org/secret-key/1.1/salt/
+                sudo sh -c "echo >> $nginx_home/$dom/htdocs/wp-config.php"
+                sudo sh -c "cat /tmp/index.html >> $nginx_home/$dom/htdocs/wp-config.php"
 	else
 		echo "wp-config-sample.php file does not exist"
 		exit
