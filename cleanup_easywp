@@ -1,0 +1,75 @@
+#!/bin/bash
+#****************************************Cleanup_Easywordpress****************************
+#This script is useful:
+#1) To remove a specific site from wordpress...
+#e.g. You want to remove example.com form your existing wordpress installation
+#Just give name of the site, Script will ask MySQL DB password
+#Then it will remove example.com from wordpress
+#
+#2) To Completely remove Easy wordpress installation
+#
+
+
+echo "************************Welcome to EasyWordpress Cleanup Script***********"
+echo
+echo 
+
+echo "Please select from the following"
+echo "1. Remove Specific site"
+echo "2. Completely remove easy wordpress installation"
+read choice
+echo
+echo
+
+if [ "$choice" -eq "1" ];then
+        echo "Enter site you want to delete"
+        read site
+
+        #clean nginx server block
+        if [ -f /etc/nginx/sites-available/$site ];then
+                sudo rm -rf /etc/nginx/sites-available/$site || (echo "Failed to remove nginx server block" && exit)
+        else
+                echo "Site doesn't exist...Please enter valid name"
+                        exit
+                fi
+
+        #clean nginx document root
+        sudo rm -rf /usr/share/nginx/www/$site || (echo "Failed to remove nginx doc root" && exit)
+
+        #Remove /etc/hosts entry
+        sudo sed -i "/$site/d" /etc/hosts || (echo "Failed to remove /etc/hosts entry" && exit)
+
+        #Remove MYSQL DB
+        dbn+=$site
+        dbn+="_db"      
+
+        echo "Full DB name is $dbn"
+
+        sudo mysql -u root -p -e "drop database \`$dbn\`;"
+
+
+elif [ "$choice" -eq "2" ];then
+        echo "Are you sure, You want to completely remove EasyWordpress installation? (y/n)"
+        read conf
+
+        if [ "$conf" = "y" ];then
+                echo "Removing Easywordpress Installation...."
+                dpkg -l *mysql* *php5* nginx | grep -E '^ii' | awk '{print $2}' | xargs sudo apt-get -y purge --auto-remove
+                loc="/etc/mysql /usr/share/nginx"
+                for pkg in $loc;do
+                        if [ -d $pkg ];then
+                                echo "$pkg dir exists"
+                                sudo rm -rf $pkg
+                        fi
+                done
+        elif [ "$conf" = "n" ];then
+                echo "Enjoy the EasyWordpress :)"
+                exit
+        else
+                echo "valid input please"
+                exit
+        fi
+else
+        echo "Please provide valid input"
+        exit
+fi
