@@ -210,7 +210,7 @@ function download_wordpress
                 hash unzip &> /dev/null
                 if [ $? -ne 0 ];then
                         echo "The program unzip is currently not installed."
-                        sudo apt-get install unzip || echo "Failed to install unzip" && exit
+                        sudo apt-get install unzip || (echo "Failed to install unzip" && exit)
                 fi
                 sudo unzip $cache/latest.zip -d $cache || (echo "Unzipping opertaion failed..." && exit)
         fi
