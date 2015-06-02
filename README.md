@@ -7,8 +7,8 @@
 - You don't need to install/configure LEMP Stack(Linux,nginx,MySQL,PHP). :)
 - If you have already installed LEMP Stack, then it directly installs Wordpress on it.
 - In a few minutes you'll be set up with a minimal, wordpress environment.
+- You can easily remove Easy Wordpress Installation by running `cleanup` script.
 
- 
 
 
 ##Pre-requisites
